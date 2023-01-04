@@ -1,2 +1,2 @@
 # binary file
-download and run exe directly if you don't/can't write code.
+download and run Todoo.exe directly if you don't/can't write code.
