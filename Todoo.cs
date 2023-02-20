@@ -39,7 +39,7 @@ namespace Todoo
         {
             bool request_layout = false;
             int line_count = this.todo_text.Lines.Length;
-            if (mLineCount < line_count)
+            if (mLineCount != line_count)
             {
                 mLineCount = line_count;
                 request_layout = true;
@@ -107,12 +107,12 @@ namespace Todoo
             Image fakeImage = new Bitmap(1, 1);
             Graphics graphics = Graphics.FromImage(fakeImage);
             SizeF size = graphics.MeasureString(mMaxLine, todo_text.Font);
-            todo_text.Width = (int)size.Width + 32;
-            todo_text.Height = (int)size.Height * mLineCount + 16;
-            if(todo_text.Width < 360) { todo_text.Width = 360; }
-            if (todo_text.Height < 240) { todo_text.Height = 240; }
-            this.Width = todo_text.Width + 2;
-            this.Height = (this.Height - this.ClientRectangle.Height) + todo_text.Height + 8;
+            todo_text.Width = (int)size.Width * 4 / 3;
+            todo_text.Height = (int)size.Height * (mLineCount < 3 ? 3 : mLineCount) * 4 / 3;
+            //if (todo_text.Width < 360) { todo_text.Width = 360; }
+            //if (todo_text.Height < 240) { todo_text.Height = 240; }
+            this.Width = todo_text.Width;
+            this.Height = (this.Height - this.ClientRectangle.Height) + todo_text.Height;
             this.PerformLayout();
         }
     }
