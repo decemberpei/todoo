@@ -46,7 +46,7 @@ namespace Todoo
             }
 
             string[] line_contents = this.todo_text.Lines;
-            if(line_contents.Length <= 0)
+            if (line_contents.Length <= 0)
             {
                 auto_resize();
                 return;
@@ -104,13 +104,25 @@ namespace Todoo
 
         private void auto_resize()
         {
+            if (mMaxLine.Length <= 13)
+            {
+                mMaxLine = "EMPTY_CONTENT";
+            }
+            if(mLineCount <= 6)
+            {
+                mLineCount = 6;
+            }
+
             Image fakeImage = new Bitmap(1, 1);
             Graphics graphics = Graphics.FromImage(fakeImage);
             SizeF size = graphics.MeasureString(mMaxLine, todo_text.Font);
-            todo_text.Width = (int)size.Width * 4 / 3;
-            todo_text.Height = (int)size.Height * (mLineCount < 3 ? 3 : mLineCount) * 4 / 3;
-            //if (todo_text.Width < 360) { todo_text.Width = 360; }
-            //if (todo_text.Height < 240) { todo_text.Height = 240; }
+
+            double sqrtW = Math.Sqrt(mMaxLine.Length);
+            todo_text.Width = (int)(size.Width * (sqrtW + 1) / sqrtW);
+
+            double sqrtH = Math.Sqrt(mLineCount);
+            todo_text.Height = (int)(size.Height * mLineCount + size.Height * (sqrtH + 1) / sqrtH);
+
             this.Width = todo_text.Width;
             this.Height = (this.Height - this.ClientRectangle.Height) + todo_text.Height;
             this.PerformLayout();
